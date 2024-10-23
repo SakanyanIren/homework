@@ -5,18 +5,18 @@
 #include <Windows.h>
 #include <WinCrypt.h>
 
-#define BLOCK_LENGTH 4097 // Размер буфера 4КБ
-#define CALG_G28147 26142 // Алгоритм шифрования
+#define BLOCK_LENGTH 4097 
+#define CALG_G28147 26142 
 
-HCRYPTPROV hProv;        // Дескриптор криптопровайдера
-HCRYPTKEY hSessionKey;   // Дескриптор сессионного ключа
-HCRYPTKEY hDuplicateKey; // Дескриптор дубликата сессионного ключа
+HCRYPTPROV hProv;      
+HCRYPTKEY hSessionKey;   
+HCRYPTKEY hDuplicateKey; 
 DWORD hProvType = (DWORD)80;
 
 int main()
 {
-    BYTE pbContent[BLOCK_LENGTH] = {0}; // Указатель на содержимое исходного файла
-    DWORD cbContent = 0;                // Длина содержимого
+    BYTE pbContent[BLOCK_LENGTH] = {0}; 
+    DWORD cbContent = 0;                
     DWORD bufLen = sizeof(pbContent);
     char pin[] = "sys";
 
@@ -69,10 +69,9 @@ int main()
         if (cbContent)
         {
             BOOL bFinal = feof(file);
-            // Зашифрование прочитанного блока на сессионном ключе.
             if (CryptEncrypt(hDuplicateKey, 0, bFinal, 0, (BYTE *)pbContent, &cbContent, bufLen))
             {
-                // Запись зашифрованного блока в файл.
+
                 if (!fwrite(pbContent, 1, cbContent, Encrypt))
                 {
                     printf("The encrypted content can not be written to the 'encrypt.bin'\n");
